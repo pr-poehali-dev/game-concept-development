@@ -277,6 +277,7 @@ const DIALOGS: Record<string, DialogNode> = {
 };
 
 const BG = "https://cdn.poehali.dev/projects/c7a4dbcf-1d45-4c5f-96f2-a9c95b9f1ff2/files/39a01b6f-0ddf-482d-8a23-ecebebb82c8e.jpg";
+const BG2 = "https://cdn.poehali.dev/projects/c7a4dbcf-1d45-4c5f-96f2-a9c95b9f1ff2/files/17ce5a1d-2705-42a8-a2f4-dd32ca313420.jpg";
 
 function xpToNextLevel(level: number) { return level * 100; }
 
@@ -530,48 +531,160 @@ export default function Index() {
 
   if (screen === "load") {
     return (
-      <div className="relative w-full h-screen overflow-hidden flex items-center justify-center">
-        <div className="absolute inset-0">
-          <img src={BG} alt="" className="w-full h-full object-cover" style={{ filter: "brightness(0.3) saturate(0.8)" }} />
-          <div className="absolute inset-0" style={{ background: "rgba(3,2,15,0.8)" }} />
+      <div className="relative w-full h-screen overflow-hidden flex flex-col">
+        {/* Background with filters */}
+        <div className="absolute inset-0 z-0">
+          <img src={BG2} alt="" className="w-full h-full object-cover"
+            style={{ filter: "brightness(0.5) saturate(1.5) contrast(1.1)" }} />
+          <div className="absolute inset-0"
+            style={{ background: "linear-gradient(180deg, rgba(3,1,12,0.55) 0%, rgba(10,4,30,0.15) 35%, rgba(5,2,20,0.6) 70%, rgba(3,1,12,0.98) 100%)" }} />
+          <div className="absolute inset-0"
+            style={{ background: "radial-gradient(ellipse at 50% 45%, rgba(100,50,200,0.3) 0%, transparent 65%)" }} />
+          <div className="absolute inset-0"
+            style={{ background: "radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0,0,0,0.65) 100%)" }} />
         </div>
-        <div className="relative z-10 w-full max-w-md px-6 space-y-5" style={{ animation: "fadeUp 0.5s ease forwards" }}>
-          <div className="flex items-center gap-3 mb-6">
-            <button onClick={() => setScreen("menu")} className="transition-colors hover:opacity-80" style={{ color: "rgba(251,191,36,0.7)" }}>
-              <Icon name="ArrowLeft" size={20} />
-            </button>
-            <h2 className="font-cinzel font-bold tracking-widest text-xl" style={{ color: "#f5c842" }}>ЗАГРУЗИТЬ ИГРУ</h2>
+
+        {/* Particles */}
+        <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
+          {[...Array(20)].map((_, i) => (
+            <div key={i} className="absolute rounded-full"
+              style={{
+                width: `${Math.random() * 2 + 1}px`, height: `${Math.random() * 2 + 1}px`,
+                left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%`,
+                background: i % 2 === 0 ? "#a78bfa" : "#f5c842",
+                opacity: Math.random() * 0.5 + 0.15,
+                animation: `floatUp ${4 + Math.random() * 5}s ${Math.random() * 4}s linear infinite`,
+              }} />
+          ))}
+        </div>
+
+        {/* Top hero area — ВХОД / ВЫХОД */}
+        <div className="relative z-20 flex flex-col items-center pt-12 pb-6 px-6 text-center select-none"
+          style={{ animation: "fadeUp 0.7s ease forwards" }}>
+
+          <p className="text-xs uppercase tracking-[0.5em] mb-4"
+            style={{ color: "rgba(167,139,250,0.75)", fontFamily: "IBM Plex Sans, sans-serif" }}>
+            Врата судьбы
+          </p>
+
+          <div className="flex items-center justify-center gap-6 mb-2">
+            {/* ВХОД */}
+            <div className="flex flex-col items-center gap-1">
+              <h2 className="font-cinzel font-black leading-none"
+                style={{
+                  fontSize: "clamp(2rem, 8vw, 4.5rem)",
+                  background: "linear-gradient(180deg, #fff8e7 0%, #f5c842 40%, #c8860a 75%, #7a4a00 100%)",
+                  WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+                  filter: "drop-shadow(0 0 30px rgba(200,134,10,0.5)) drop-shadow(0 2px 12px rgba(0,0,0,0.9))",
+                  letterSpacing: "0.2em",
+                }}>
+                ВХОД
+              </h2>
+              <div className="h-0.5 w-full rounded-full"
+                style={{ background: "linear-gradient(90deg, transparent, rgba(245,200,66,0.7), transparent)" }} />
+              <p className="text-[10px] tracking-widest uppercase" style={{ color: "rgba(245,200,66,0.45)", fontFamily: "IBM Plex Sans" }}>Новое начало</p>
+            </div>
+
+            {/* Divider */}
+            <div className="flex flex-col items-center gap-1" style={{ color: "rgba(167,139,250,0.5)", fontSize: 22 }}>
+              <div className="w-px h-8" style={{ background: "linear-gradient(180deg, transparent, rgba(167,139,250,0.5), transparent)" }} />
+              <span style={{ fontSize: 10 }}>◆</span>
+              <div className="w-px h-8" style={{ background: "linear-gradient(180deg, rgba(167,139,250,0.5), transparent)" }} />
+            </div>
+
+            {/* ВЫХОД */}
+            <div className="flex flex-col items-center gap-1">
+              <h2 className="font-cinzel font-black leading-none"
+                style={{
+                  fontSize: "clamp(2rem, 8vw, 4.5rem)",
+                  background: "linear-gradient(180deg, #f0e6ff 0%, #c4a6ff 40%, #7c3aed 75%, #3b0764 100%)",
+                  WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+                  filter: "drop-shadow(0 0 30px rgba(124,58,237,0.5)) drop-shadow(0 2px 12px rgba(0,0,0,0.9))",
+                  letterSpacing: "0.2em",
+                }}>
+                ВЫХОД
+              </h2>
+              <div className="h-0.5 w-full rounded-full"
+                style={{ background: "linear-gradient(90deg, transparent, rgba(167,139,250,0.7), transparent)" }} />
+              <p className="text-[10px] tracking-widest uppercase" style={{ color: "rgba(167,139,250,0.45)", fontFamily: "IBM Plex Sans" }}>Из тени</p>
+            </div>
           </div>
+
+          {/* Ornament */}
+          <div className="flex items-center gap-3 mt-4" style={{ width: "min(300px, 80vw)" }}>
+            <div className="flex-1 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(167,139,250,0.4))" }} />
+            <span style={{ color: "rgba(167,139,250,0.5)", fontSize: 9 }}>◆ ◆ ◆</span>
+            <div className="flex-1 h-px" style={{ background: "linear-gradient(90deg, rgba(167,139,250,0.4), transparent)" }} />
+          </div>
+        </div>
+
+        {/* Slots */}
+        <div className="relative z-20 flex-1 overflow-y-auto px-6 pb-8" style={{ animation: "fadeUp 0.8s ease forwards" }}>
+          <p className="font-cinzel text-xs uppercase tracking-widest mb-4 text-center"
+            style={{ color: "rgba(167,139,250,0.5)" }}>Сохранённые путешествия</p>
+
           {saves.length === 0 ? (
-            <p className="text-center py-16" style={{ color: "rgba(255,255,255,0.25)", fontFamily: "IBM Plex Sans, sans-serif" }}>Сохранений пока нет</p>
+            <div className="flex flex-col items-center py-12 gap-3">
+              <span style={{ fontSize: 36, opacity: 0.3 }}>📜</span>
+              <p className="text-sm text-center" style={{ color: "rgba(255,255,255,0.2)", fontFamily: "IBM Plex Sans" }}>Сохранений пока нет.<br />Начни новое путешествие.</p>
+              <button onClick={startNewGame}
+                className="mt-4 px-8 py-3 font-cinzel font-bold text-xs uppercase tracking-widest rounded-sm transition-all hover:scale-105"
+                style={{ background: "linear-gradient(135deg,#b8730a,#e09c18)", color: "#1a0d00", boxShadow: "0 0 20px rgba(200,134,10,0.3)" }}>
+                Новая игра
+              </button>
+            </div>
           ) : (
-            saves.sort((a, b) => a.id - b.id).map(slot => (
-              <div key={slot.id} className="flex items-center gap-3 p-4 rounded-lg border transition-all hover:scale-[1.01]"
-                style={{ background: "rgba(255,255,255,0.04)", borderColor: "rgba(167,139,250,0.2)" }}>
-                <div className="flex-1">
-                  <p className="font-cinzel font-bold text-sm" style={{ color: "#f5c842" }}>{slot.name}</p>
-                  <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.35)", fontFamily: "IBM Plex Sans" }}>{slot.timestamp}</p>
-                  <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.45)", fontFamily: "IBM Plex Sans" }}>
-                    Ур. {slot.stats.level} · {slot.stats.hp} HP · {slot.stats.gold}💰
-                  </p>
+            <div className="space-y-3">
+              {saves.sort((a, b) => a.id - b.id).map(slot => (
+                <div key={slot.id} className="flex items-center gap-3 p-4 rounded-xl transition-all hover:scale-[1.01]"
+                  style={{ background: "rgba(10,5,30,0.75)", border: "1px solid rgba(167,139,250,0.2)", backdropFilter: "blur(10px)" }}>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 font-cinzel font-black text-lg"
+                    style={{ background: "linear-gradient(135deg,rgba(124,58,237,0.4),rgba(184,115,10,0.4))", border: "1px solid rgba(245,200,66,0.25)", color: "#f5c842" }}>
+                    {slot.id}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-cinzel font-bold text-sm" style={{ color: "#f5c842" }}>{slot.name}</p>
+                    <p className="text-xs mt-0.5 truncate" style={{ color: "rgba(255,255,255,0.3)", fontFamily: "IBM Plex Sans" }}>{slot.timestamp}</p>
+                    <p className="text-xs mt-0.5" style={{ color: "rgba(167,139,250,0.6)", fontFamily: "IBM Plex Sans" }}>
+                      Ур. {slot.stats.level} · {slot.stats.hp} HP · {slot.stats.gold}💰
+                    </p>
+                  </div>
+                  <div className="flex gap-2">
+                    <button onClick={() => loadGame(slot)}
+                      className="px-4 py-2 text-xs font-cinzel font-bold uppercase tracking-wider rounded-sm transition-all hover:scale-105"
+                      style={{ background: "linear-gradient(135deg,#b8730a,#e09c18)", color: "#1a0d00", boxShadow: "0 0 14px rgba(200,134,10,0.25)" }}>
+                      Войти
+                    </button>
+                    <button onClick={() => { const u = saves.filter(s => s.id !== slot.id); setSaves(u); writeSaves(u); }}
+                      className="px-3 py-2 rounded-sm transition-all hover:opacity-80"
+                      style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,100,100,0.5)" }}>
+                      <Icon name="Trash2" size={13} />
+                    </button>
+                  </div>
                 </div>
-                <div className="flex gap-2">
-                  <button onClick={() => loadGame(slot)}
-                    className="px-4 py-2 text-xs font-cinzel font-bold uppercase tracking-wider rounded transition-all hover:scale-105"
-                    style={{ background: "linear-gradient(135deg,#b8730a,#e09c18)", color: "#1a0d00" }}>
-                    Загрузить
-                  </button>
-                  <button onClick={() => { const u = saves.filter(s => s.id !== slot.id); setSaves(u); writeSaves(u); }}
-                    className="px-3 py-2 rounded transition-all hover:opacity-80"
-                    style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,100,100,0.6)" }}>
-                    <Icon name="Trash2" size={13} />
-                  </button>
-                </div>
-              </div>
-            ))
+              ))}
+            </div>
           )}
         </div>
-        <style>{`@keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }`}</style>
+
+        {/* Back button */}
+        <div className="relative z-20 px-6 pb-6 flex gap-3">
+          <button onClick={() => setScreen("menu")}
+            className="flex-1 py-3 font-cinzel font-medium text-xs uppercase tracking-widest rounded-sm transition-all hover:scale-105"
+            style={{ background: "rgba(255,255,255,0.05)", color: "rgba(167,139,250,0.8)", border: "1px solid rgba(167,139,250,0.25)" }}>
+            ← Назад в меню
+          </button>
+          <button onClick={startNewGame}
+            className="flex-1 py-3 font-cinzel font-bold text-xs uppercase tracking-widest rounded-sm transition-all hover:scale-105"
+            style={{ background: "linear-gradient(135deg,#b8730a,#e09c18)", color: "#1a0d00", boxShadow: "0 0 20px rgba(200,134,10,0.25)" }}>
+            Новая игра
+          </button>
+        </div>
+
+        <style>{`
+          @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+          @keyframes floatUp { 0%{transform:translateY(0);opacity:0} 15%{opacity:1} 85%{opacity:.4} 100%{transform:translateY(-80vh);opacity:0} }
+        `}</style>
       </div>
     );
   }
